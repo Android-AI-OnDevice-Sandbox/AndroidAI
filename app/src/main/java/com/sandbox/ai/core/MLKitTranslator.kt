@@ -1,10 +1,18 @@
 package com.sandbox.ai.core
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class MLKitTranslator {
     private val options = TranslatorOptions.Builder()
@@ -27,18 +35,16 @@ class MLKitTranslator {
             }
     }
 
-    fun translate(description: String): String {
-        var translatedText = ""
+    fun translate(description: String, callback: (String) -> Unit) {
         if (isModelReady) {
             englishKoreanTranslator.translate(description)
-                .addOnSuccessListener { translatedText += it }
+                .addOnSuccessListener { callback(it) }
                 .addOnFailureListener { exception ->
-                    translatedText = "Translation failed: $exception"
+                    callback("Translation failed: $exception")
                 }
         } else {
-            translatedText = "Model is not ready"
+            callback("Model is not ready")
         }
-        return translatedText
     }
 
     fun close() {

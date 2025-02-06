@@ -8,10 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.sandbox.ai.core.GemmaLLM
 import com.sandbox.ai.core.MLKitTranslator
 import com.sandbox.ai.data.api.ComputerVisionService
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class MainViewModel : ViewModel() {
     private val computerVisionService = ComputerVisionService()
@@ -19,7 +22,7 @@ class MainViewModel : ViewModel() {
     private val _captions = MutableStateFlow<List<String>>(emptyList())
     val captions: StateFlow<List<String>> = _captions.asStateFlow()
 
-    private val _translatedCaptions = MutableStateFlow<String?>(null)
+    private var _translatedCaptions = MutableStateFlow<String?>(null)
     val translatedCaptions: StateFlow<String?> = _translatedCaptions.asStateFlow()
 
     private val translator = MLKitTranslator()
@@ -44,8 +47,12 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val llmResult = GemmaLLM(context, captions.value.joinToString(" ")).getResult()
-                val translated = translator.translate(llmResult)
-                _translatedCaptions.tryEmit(translated)
+                Log.e("PickPhotoViewModel", "LLM: ${llmResult}")
+                val translated = async {
+                    translator.translate(llmResult) { translated ->
+                        _translatedCaptions.tryEmit(translated)
+                    }
+                }
             } catch (e: Exception) {
                 Log.e("PickPhotoViewModel", "Error getting LLM result", e)
                 _translatedCaptions.tryEmit(null)

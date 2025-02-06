@@ -12,7 +12,7 @@ class GemmaLLM(context: Context, description: String) {
         .setRandomSeed(101)
         .build()
 
-    private val inputPrompt = """Make a story about the description below.
+    private val inputPrompt = """Make a story about the description below. Under 300 words.
         $description
     """.trimMargin()
 
