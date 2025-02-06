@@ -1,7 +1,16 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+val localProperties = File(rootProject.projectDir, "local.properties")
+val properties = Properties()
+if (localProperties.exists()) {
+    properties.load(localProperties.inputStream())
 }
 
 android {
@@ -14,6 +23,9 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "AZURE_SUBSCRIPTION_KEY", "\"${properties.getProperty("AZURE_SUBSCRIPTION_KEY")}\"")
+        buildConfigField("String", "AZURE_ENDPOINT", "\"${properties.getProperty("AZURE_ENDPOINT")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,19 +48,40 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
+    // Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Compose
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
+
+    // Androidx Ui
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.kotlinx.serialization)
+    implementation(libs.okhttp)
+
+    // Kotlinx Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+    // ML Kit
+    implementation(libs.translate)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
