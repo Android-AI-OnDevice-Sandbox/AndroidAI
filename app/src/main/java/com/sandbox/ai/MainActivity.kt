@@ -7,41 +7,25 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.sandbox.ai.screen.PickPhotoScreen
+import com.sandbox.ai.screen.PickPhotoViewModel
 import com.sandbox.ai.ui.theme.AndroidAITheme
 
 class MainActivity : ComponentActivity() {
+    private val viewModel = PickPhotoViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AndroidAITheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    PickPhotoScreen(
+                        modifier = Modifier.fillMaxSize().padding(innerPadding),
+                        viewModel = viewModel
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AndroidAITheme {
-        Greeting("Android")
     }
 }
