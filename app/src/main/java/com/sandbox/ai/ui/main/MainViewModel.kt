@@ -1,4 +1,4 @@
-package com.sandbox.ai.ui.screen
+package com.sandbox.ai.ui.main
 
 import android.content.Context
 import android.net.Uri
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class PickPhotoViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
     private val computerVisionService = ComputerVisionService()
 
     private val _captions = MutableStateFlow<List<String>>(emptyList())
