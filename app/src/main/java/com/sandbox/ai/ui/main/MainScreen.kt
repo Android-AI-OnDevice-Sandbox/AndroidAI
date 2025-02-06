@@ -13,11 +13,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,7 +32,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.sandbox.ai.core.MLKitTranslator
 
 @Composable
 fun PickPhotoScreen(
@@ -42,7 +42,6 @@ fun PickPhotoScreen(
     val context = LocalContext.current
 
     val descriptions by viewModel.captions.collectAsState()
-    val translator by remember { mutableStateOf(MLKitTranslator()) }
     val translatedDescriptions by viewModel.translatedCaptions.collectAsState()
 
     val pickMedia = rememberLauncherForActivityResult(PickVisualMedia()) { uri ->
@@ -51,12 +50,9 @@ fun PickPhotoScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
-        translator.translate(descriptions)
-    }
-
     Column(
-        modifier = modifier.padding(vertical = 20.dp, horizontal = 16.dp),
+        modifier = modifier.padding(vertical = 20.dp, horizontal = 16.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -107,9 +103,7 @@ fun PickPhotoScreen(
                     Text(it)
                 }
 
-                translatedDescriptions.forEach {
-                    Text(it)
-                }
+                Text(translatedDescriptions ?: "Error")
             }
         }
     }
