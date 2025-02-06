@@ -1,4 +1,4 @@
-package com.sandbox.ai.model
+package com.sandbox.ai.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

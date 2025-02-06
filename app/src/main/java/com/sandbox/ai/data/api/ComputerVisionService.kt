@@ -1,7 +1,7 @@
-package com.sandbox.ai.data
+package com.sandbox.ai.data.api
 
 import com.sandbox.ai.BuildConfig
-import com.sandbox.ai.model.ImageAnalysisResponse
+import com.sandbox.ai.data.model.ImageAnalysisResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json

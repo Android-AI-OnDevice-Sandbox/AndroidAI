@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.sandbox.ai.screen.PickPhotoScreen
-import com.sandbox.ai.screen.PickPhotoViewModel
+import com.sandbox.ai.ui.screen.PickPhotoScreen
+import com.sandbox.ai.ui.screen.PickPhotoViewModel
 import com.sandbox.ai.ui.theme.AndroidAITheme
 
 class MainActivity : ComponentActivity() {

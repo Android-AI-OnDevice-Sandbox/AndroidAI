@@ -1,4 +1,4 @@
-package com.sandbox.ai.screen
+package com.sandbox.ai.ui.screen
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

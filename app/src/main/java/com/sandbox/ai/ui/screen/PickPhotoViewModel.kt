@@ -1,4 +1,4 @@
-package com.sandbox.ai.screen
+package com.sandbox.ai.ui.screen
 
 import android.content.Context
 import android.net.Uri
@@ -9,7 +9,7 @@ import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
-import com.sandbox.ai.data.ComputerVisionService
+import com.sandbox.ai.data.api.ComputerVisionService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
