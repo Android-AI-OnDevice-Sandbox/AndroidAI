@@ -1,7 +1,6 @@
-package com.sandbox.ai.data
+package com.sandbox.ai.data.api
 
-import com.sandbox.ai.ImageAnalysisRequest
-import com.sandbox.ai.model.ImageAnalysisResponse
+import com.sandbox.ai.data.model.ImageAnalysisResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Header

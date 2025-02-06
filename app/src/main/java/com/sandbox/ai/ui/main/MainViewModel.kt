@@ -1,4 +1,4 @@
-package com.sandbox.ai.screen
+package com.sandbox.ai.ui.main
 
 import android.content.Context
 import android.net.Uri
@@ -9,13 +9,13 @@ import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
-import com.sandbox.ai.data.ComputerVisionService
+import com.sandbox.ai.data.api.ComputerVisionService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class PickPhotoViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
     private val computerVisionService = ComputerVisionService()
 
     private val _captions = MutableStateFlow<List<String>>(emptyList())

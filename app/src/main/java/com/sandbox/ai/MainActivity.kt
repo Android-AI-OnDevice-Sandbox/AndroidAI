@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.sandbox.ai.screen.PickPhotoScreen
-import com.sandbox.ai.screen.PickPhotoViewModel
+import com.sandbox.ai.ui.main.PickPhotoScreen
+import com.sandbox.ai.ui.main.MainViewModel
 import com.sandbox.ai.ui.theme.AndroidAITheme
 
 class MainActivity : ComponentActivity() {
-    private val viewModel = PickPhotoViewModel()
+    private val viewModel = MainViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
