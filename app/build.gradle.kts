@@ -82,6 +82,9 @@ dependencies {
     // ML Kit
     implementation(libs.translate)
 
+    // MediaPipe GenAI
+    implementation(libs.mediapipe.tasks.genai)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
