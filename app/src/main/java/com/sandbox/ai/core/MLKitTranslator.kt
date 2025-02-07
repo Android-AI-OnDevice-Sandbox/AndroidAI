@@ -1,7 +1,10 @@
 package com.sandbox.ai.core
 
+import android.util.Log
 import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.TranslateRemoteModel
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 
@@ -10,41 +13,50 @@ class MLKitTranslator {
         .setSourceLanguage(TranslateLanguage.ENGLISH)
         .setTargetLanguage(TranslateLanguage.KOREAN)
         .build()
-    private val englishKoreanTranslator = Translation.getClient(options)
-
     private val conditions = DownloadConditions.Builder()
+        // Wi-Fi is only accepted for downloading the model
         .requireWifi()
         .build()
+    private val modelManager = RemoteModelManager.getInstance()
     private var isModelReady = false
+    private val englishKoreanTranslator = Translation.getClient(options)
 
-    init {
-        modelSetup()
-    }
-
-    private fun modelSetup(): Boolean {
+    fun downloadModel(){
         englishKoreanTranslator.downloadModelIfNeeded(conditions)
             .addOnSuccessListener {
+                Log.e("MLKitTranslator", "Model downloaded successfully")
                 isModelReady = true
             }
             .addOnFailureListener {
+                Log.e("MLKitTranslator", "Model download failed: $it")
                 isModelReady = false
             }
-        return isModelReady
     }
 
-    fun translate(descriptions: List<String>): String {
-        var translatedText = ""
-        if (isModelReady) {
-            descriptions.forEach {
-                englishKoreanTranslator.translate(it)
-                    .addOnSuccessListener { translatedText += it }
-                    .addOnFailureListener { exception ->
-
-                    }
+    fun deleteModel(){
+        val koreanModel = TranslateRemoteModel.Builder(TranslateLanguage.KOREAN).build()
+        modelManager.deleteDownloadedModel(koreanModel)
+            .addOnSuccessListener {
+                Log.e("MLKitTranslator", "Model deleted")
             }
+            .addOnFailureListener {
+                Log.e("MLKitTranslator", "Model deletion failed")
+            }
+    }
+
+    fun translate(description: String, callback: (String) -> Unit) {
+        if (isModelReady) {
+            englishKoreanTranslator.translate(description)
+                .addOnSuccessListener { callback(it) }
+                .addOnFailureListener { exception ->
+                    callback("Translation failed: $exception")
+                }
         } else {
-            translatedText = "Model is not ready"
+            callback("Model is not ready")
         }
-        return translatedText
+    }
+
+    fun close() {
+        englishKoreanTranslator.close()
     }
 }
