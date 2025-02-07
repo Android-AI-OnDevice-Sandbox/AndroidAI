@@ -13,8 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class MainViewModel : ViewModel() {
     private val computerVisionService = ComputerVisionService()
@@ -22,10 +20,16 @@ class MainViewModel : ViewModel() {
     private val _captions = MutableStateFlow<List<String>>(emptyList())
     val captions: StateFlow<List<String>> = _captions.asStateFlow()
 
-    private var _translatedCaptions = MutableStateFlow<String?>(null)
+    private val _translatedCaptions = MutableStateFlow<String?>(null)
     val translatedCaptions: StateFlow<String?> = _translatedCaptions.asStateFlow()
 
     private val translator = MLKitTranslator()
+
+    // Test deleting pre-downloaded model and downloading model
+    init {
+        translator.deleteModel()
+        translator.downloadModel()
+    }
 
     fun getCaption(image: Uri, context: Context) {
         viewModelScope.launch {
